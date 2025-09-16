@@ -85,12 +85,24 @@ public_users.get('/author/:author',function (req, res) {
 public_users.get('/title/:title',function (req, res) {
   let searchField = req.params.title;
   let result = [];
-  Object.keys(books).forEach(key => {
-    if (books[key].title === searchField) {
-      result.push(books[key]);
+  let booksPromise = new Promise((resolve, reject) => {
+    let allBooks = require("./booksdb.js");
+    Object.keys(allBooks).forEach(key => {
+      if (allBooks[key].title === searchField) {
+        result.push(books[key]);
+      }
+    });
+    if (result.length > 0) {
+      resolve(result);
+    } else {
+      reject("Error retrieving book(s) by title " + searchField);
     }
   });
-  return res.status(200).json(result);
+  booksPromise.then((result) => {
+    return res.status(200).json(result);
+  }).catch((error) => {
+    return res.status(500).json({message: error});
+  });
 });
 
 //  Get book review
