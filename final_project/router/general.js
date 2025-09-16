@@ -10,6 +10,7 @@ public_users.post("/register", (req,res) => {
   let password = req.body.password;
   if (isValid(username)) {
     //user already exists
+    console.log('user exists');
     return res.status(200).json({message: "User already exists."});
   }
   if (!username || !password) {
