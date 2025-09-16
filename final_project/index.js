@@ -15,9 +15,11 @@ app.use("/customer/auth/*", function auth(req,res,next){
     if (req.session.authorization) {
         let token = req.session.authorization['accessToken']; // Access Token
         // Verify JWT token for user authentication
-        jwt.verify(token, "access", (err, username) => {
+        jwt.verify(token, "access", (err, user) => {
             if (!err) {
-                req.username = username; // Set authenticated user data on the request object
+                console.log('logged in');
+                console.log('user = ' + JSON.stringify(user));
+                req.user = user; // Set authenticated user data on the request object
                 next(); // Proceed to the next middleware
             } else {
                 return res.status(403).json({ message: "User not authenticated" }); // Return error if token verification fails
