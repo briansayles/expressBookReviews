@@ -26,7 +26,6 @@ public_users.get('/author/:author',function (req, res) {
   let searchField = req.params.author;
   let result = [];
   Object.keys(books).forEach(key => {
-    console.log(`Key: ${key}, Value: ${books[key]}`);
     if (books[key].author === searchField) {
       result.push(books[key]);
     }
@@ -39,7 +38,6 @@ public_users.get('/title/:title',function (req, res) {
   let searchField = req.params.title;
   let result = [];
   Object.keys(books).forEach(key => {
-    console.log(`Key: ${key}, Value: ${books[key]}`);
     if (books[key].title === searchField) {
       result.push(books[key]);
     }
@@ -49,8 +47,8 @@ public_users.get('/title/:title',function (req, res) {
 
 //  Get book review
 public_users.get('/review/:isbn',function (req, res) {
-  //Write your code here
-  return res.status(300).json({message: "Yet to be implemented"});
+  let isbn = req.params.isbn;
+  return res.status(200).json(books[isbn].reviews);
 });
 
 module.exports.general = public_users;
